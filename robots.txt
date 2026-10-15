@@ -1,0 +1,5 @@
+# Björn Schillinger Schreinermeister, Germering
+User-agent: *
+Allow: /
+
+Sitemap: https://meisterschillinger.de/sitemap.xml
