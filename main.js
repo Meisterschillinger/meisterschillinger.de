@@ -219,18 +219,22 @@
     var punkt = document.createElement('div');
     punkt.className = 'lichtpunkt'; punkt.setAttribute('aria-hidden', 'true');
     document.body.appendChild(punkt);
-    var zx = 0, zy = 0, x = 0, y = 0;
+    var zx = 0, zy = 0, x = 0, y = 0, laeuft = false;
+    /* Die Schleife läuft nur, solange der Punkt dem Zeiger noch nachzieht — nicht dauerhaft
+       bei jedem Bild (Dauer-rAF hielt den Hauptthread und die GPU auch im Stillstand wach). */
+    function lauf() {
+      x += (zx - x) * 0.22; y += (zy - y) * 0.22;
+      punkt.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      if (Math.abs(zx - x) > 0.05 || Math.abs(zy - y) > 0.05) requestAnimationFrame(lauf);
+      else laeuft = false;
+    }
     addEventListener('mousemove', function (e) {
       zx = e.clientX; zy = e.clientY; punkt.classList.add('an');
       var t = e.target.closest('a,button,summary,.front');
       punkt.classList.toggle('gross', !!t);
+      if (!laeuft) { laeuft = true; requestAnimationFrame(lauf); }
     }, { passive: true });
     addEventListener('mouseleave', function () { punkt.classList.remove('an'); });
-    (function lauf() {
-      x += (zx - x) * 0.22; y += (zy - y) * 0.22;
-      punkt.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-      requestAnimationFrame(lauf);
-    })();
   }
 
   /* ── Mobilmenü ──────────────────────────────────────────────────── */
