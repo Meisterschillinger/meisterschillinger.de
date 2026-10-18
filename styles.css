@@ -1262,3 +1262,8 @@ html.lb-offen{overflow:hidden}
   .lb-unter{padding:8px 70px 22px; font-size:14px; flex-direction:column; gap:4px; align-items:center}
 }
 @media (prefers-reduced-motion:reduce){ .lb,.lb-bild{transition:none} .lb-bild{transform:none} }
+
+/* LCP 17.10.2026: Poster als <img>, Video blendet erst beim Abspielen ein */
+.hero-film>.hero-poster,.hero-film>.hero-video{position:absolute;inset:0}
+.hero-film>.hero-video{opacity:0;transition:opacity .6s linear}
+.hero-film>.hero-video.laeuft{opacity:1}
