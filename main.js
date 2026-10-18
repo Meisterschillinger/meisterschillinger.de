@@ -266,6 +266,8 @@
     var hinweis = f.querySelector('.form-hinweis');
     var knopf = f.querySelector('button[type="submit"]');
     var TEL = '089 81888641';
+    /* Spam-Schutz ohne Cookie: Ladezeit ins Formular; der Dienst verwirft Absendungen unter 3 s. */
+    var tsFeld = f.querySelector('[name="ts"]'); if (tsFeld) tsFeld.value = String(Date.now());
 
     function sage(text, art) {
       if (!hinweis) return;
