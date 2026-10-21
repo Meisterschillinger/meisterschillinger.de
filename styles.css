@@ -1058,6 +1058,15 @@ footer img.signet { height:48px !important; width:auto !important; }
 .korpus-buehne{display:flex; align-items:center}
 .korpus-buehne svg{width:100%; height:auto; max-height:none}
 @media (max-width:900px){ .korpus-buehne{min-height:380px} }
+/* 🔴 21.10.2026 (Raster-Regel: zwei Spalten enden gleich hoch, ≤ 24 px): Die Zeichnung war 56 px
+   höher als der Text daneben. Ab Desktop bestimmt der Text die Zeilenhöhe; die Zeichnung füllt
+   genau diese Höhe (viewBox skaliert mit „meet“, nichts wird beschnitten). Geprüft von
+   system/scripts/pruefer/helena_raster_gleich.py. */
+@media (min-width:961px){
+  .korpus-block{align-items:stretch}
+  .korpus-buehne{display:block; position:relative; min-height:0}
+  .korpus-buehne svg{position:absolute; inset:0; width:100%; height:100%}
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
    ECHTE WEBSITE — Anfrageformular (25.09.2026)
