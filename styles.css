@@ -42,13 +42,13 @@
 
 *{box-sizing:border-box}
 .sprung{position:absolute; left:12px; top:12px; z-index:9999; background:var(--licht); color:#1c1615;
-        padding:14px 22px; text-decoration:none; font-size:15px;
+        padding:14px 22px; min-height:44px; min-width:44px; text-decoration:none; font-size:15px;
         clip-path:inset(50%); width:1px; height:1px; overflow:hidden; white-space:nowrap}
 .sprung:focus{clip-path:none; width:auto; height:auto; overflow:visible}
 html{scroll-behavior:smooth}
 body{
   margin:0; background:var(--nacht); color:var(--text);
-  font:400 17px/1.7 var(--sans);
+  font:400 17px/1.7 var(--sans); letter-spacing:.01em; /* Apple: kleine Texte +0.01em */
   font-optical-sizing:auto;
   -webkit-font-smoothing:antialiased; overflow-x:clip;
 }
@@ -71,7 +71,7 @@ h1,h2,h3,h4{
 h1{font-size:clamp(40px,6.4vw,88px); letter-spacing:-.032em; line-height:1.02}
 /* 🔴 Deutsche Komposita sprengen sonst das Handy-Layout: „Siphonschublade.“ lief
    auf baeder.html 4 px ueber den Traeger. Netz fuer jedes kuenftige lange Wort. */
-@media (max-width:480px){ h1,h2{overflow-wrap:break-word; hyphens:auto} }
+@media (max-width:480px){ h1,h2{overflow-wrap:break-word} }
 h2{font-size:clamp(32px,4.3vw,58px); letter-spacing:-.026em; line-height:1.05}
 h3{font-size:clamp(23px,2.5vw,32px); letter-spacing:-.016em; line-height:1.14}
 h4{font-size:20px; line-height:1.28; letter-spacing:-.008em; font-weight:500}
@@ -97,7 +97,9 @@ p:last-child{margin-bottom:0}
 .auf-papier .lead{color:var(--papier-leise)}
 
 /* ── Flächen ─────────────────────────────────────────────────────────── */
-.abschnitt{padding:clamp(84px,9vw,136px) 0; position:relative}
+.abschnitt{padding:80px 0; position:relative} /* 8-px-Raster: 80 / 112 / 128 */
+@media (min-width:700px){ .abschnitt{padding:112px 0} }
+@media (min-width:1100px){ .abschnitt{padding:128px 0} }
 .f-korpus{background:var(--korpus)}
 .f-tiefer{background:var(--tiefer)}
 .f-papier{background:var(--papier); color:var(--papier-text)}
@@ -191,7 +193,7 @@ header.kopf{position:sticky; top:0; z-index:60}
 .cta::after{ /* Glanz-Sweep */
   content:""; position:absolute; inset:0; transform:translateX(-110%);
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
-  transition:transform .65s;
+  transition:transform .4s;
 }
 .cta:hover{box-shadow:0 0 34px rgba(255,217,160,.34)}
 .cta:hover::after{transform:translateX(110%)}
@@ -241,7 +243,7 @@ header.kopf{position:sticky; top:0; z-index:60}
    genau diese Fotos zeigen die Lichtfuge, die die Signatur trägt. */
 .hero-film img[data-dunkel]{filter:brightness(1.45) saturate(1.06)}
 /* Zwei Blenden fahren beim Laden auseinander — die Fuge öffnet sich */
-.blende{position:absolute; left:0; right:0; background:#0b0908; z-index:3; transition:transform 1.15s cubic-bezier(.76,0,.24,1)}
+.blende{position:absolute; left:0; right:0; background:#0b0908; z-index:3; transition:transform .4s cubic-bezier(.76,0,.24,1)}
 .blende.o{top:0; height:50%}
 .blende.u{bottom:0; height:50%}
 .hero.auf .blende.o{transform:translateY(-100%)}
@@ -249,10 +251,10 @@ header.kopf{position:sticky; top:0; z-index:60}
 .fugenlicht{
   position:absolute; left:0; right:0; top:50%; height:2px; z-index:4;
   background:linear-gradient(90deg,transparent,var(--licht) 18%,#fff 50%,var(--licht) 82%,transparent);
-  box-shadow:0 0 40px 8px rgba(255,217,160,.5); opacity:0; transition:opacity .5s;
+  box-shadow:0 0 40px 8px rgba(255,217,160,.5); opacity:0; transition:opacity .4s;
 }
 .hero.zuendet .fugenlicht{opacity:1}
-.hero.auf .fugenlicht{opacity:0; transition:opacity .9s .3s}
+.hero.auf .fugenlicht{opacity:0; transition:opacity .4s .3s}
 
 .hero-inhalt{position:relative; z-index:5; padding-top:170px; padding-bottom:clamp(64px,7vw,104px); width:100%}
 /* Der Text sitzt auf einem eigenen Träger statt auf mehr Schleier: ein dunkler
@@ -270,7 +272,7 @@ header.kopf{position:sticky; top:0; z-index:60}
   box-shadow:0 0 18px rgba(255,184,101,.4)}
 @media (max-width:560px){ .hero-traeger{padding:22px 20px 24px} }
 .hero h1{max-width:16ch}
-.hero h1 .ort{display:block; font-size:.38em; letter-spacing:.015em; color:var(--holz); margin-top:18px; font-weight:300}
+.hero h1 .ort{display:block; font-size:.38em; letter-spacing:-.01em; color:var(--holz); margin-top:18px; font-weight:300}
 .hero .lead{max-width:52ch; margin-top:26px}
 .hero-knoepfe{display:flex; flex-wrap:wrap; gap:14px; margin-top:38px}
 
@@ -285,7 +287,7 @@ header.kopf{position:sticky; top:0; z-index:60}
 /* Kein fade-in, kein translateY: eine Lichtlinie in der Mitte, von der aus
    sich der Block nach oben UND unten öffnet. Grundzustand ist sichtbar —
    die Maske wird erst gesetzt, wenn der Block in die Nähe kommt (Lipp). */
-.fugt{clip-path:inset(50% 0 50% 0); opacity:.001; transition:clip-path .9s cubic-bezier(.22,1,.36,1), opacity .35s}
+.fugt{clip-path:inset(50% 0 50% 0); opacity:.001; transition:clip-path .4s cubic-bezier(.22,1,.36,1), opacity .35s}
 .fugt.offen{clip-path:inset(0 0 0 0); opacity:1}
 @media (prefers-reduced-motion:reduce){
   .fugt,.fugt.offen{clip-path:none!important; opacity:1!important; transition:none!important}
@@ -323,7 +325,7 @@ header.kopf{position:sticky; top:0; z-index:60}
    schrumpfte der Abstand zum gefuellten Wort. Der Ruhezustand bleibt lesbar — das
    GEFUELLTE Wort traegt jetzt den Unterschied: heller als der Fliesstext, mit einem
    warmen Schimmer, und die Leuchtmarke deutlich kraeftiger. */
-.statement .w{color:#8c817c; transition:color .45s, text-shadow .45s, opacity .45s}
+.statement .w{color:#8c817c; transition:color .4s, text-shadow .4s, opacity .4s}
 .statement .w.hell{color:#fffaf4; text-shadow:0 0 18px rgba(255,217,160,.22)}
 .statement .w.jetzt{color:var(--glut); text-shadow:0 0 34px rgba(255,184,101,.75),
                                         0 0 12px rgba(255,217,160,.5)}
@@ -350,7 +352,7 @@ header.kopf{position:sticky; top:0; z-index:60}
   display:block; width:clamp(64px,9vw,128px); height:3px; margin-bottom:clamp(30px,3.4vw,46px);
   background:linear-gradient(90deg,transparent,var(--glut),transparent);
   transform:scaleX(.18); transform-origin:center;
-  transition:transform 1.05s cubic-bezier(.22,1,.36,1); opacity:.9;
+  transition:transform .4s cubic-bezier(.22,1,.36,1); opacity:.9;
 }
 .statement.zitat.offen .zitat-fuge{transform:scaleX(1)}
 @media (prefers-reduced-motion:reduce){ .zitat-fuge{transform:scaleX(1); transition:none} }
@@ -374,8 +376,8 @@ header.kopf{position:sticky; top:0; z-index:60}
 .korpus-buehne svg text{font-size:21px}
 .korpus-buehne svg text{font-family:var(--sans); font-size:20px; fill:var(--leise); letter-spacing:.06em}
 @media (max-width:900px){ .korpus-buehne svg text{font-size:30px} }
-.fach{transition:opacity .6s ease, filter .6s ease}
-.fach-licht{transition:opacity .55s ease}
+.fach{transition:opacity .4s ease, filter .4s ease}
+.fach-licht{transition:opacity .4s ease}
 .gewinn{display:flex; align-items:baseline; gap:14px; margin-top:30px}
 .gewinn .zahl{font-family:var(--display); font-weight:300; font-size:clamp(52px,7vw,86px); line-height:.92; color:var(--licht); letter-spacing:-.03em}
 .gewinn .was{font-size:16px; color:var(--leise); max-width:22ch; line-height:1.4}
@@ -396,7 +398,7 @@ header.kopf{position:sticky; top:0; z-index:60}
   aspect-ratio:4/5; background:#0f0c0b; isolation:isolate;
 }
 @media (max-width:600px){ .front{aspect-ratio:16/10} }
-.front img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.05); transition:transform 1.1s cubic-bezier(.22,1,.36,1)}
+.front img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.05); transition:transform .6s cubic-bezier(.22,1,.36,1)}
 .front:hover img{transform:scale(1)}
 /* 🔴 Noah, 22.09.2026: „die Bilder sind irgendwie dunkel". Der Schleier stand
    unten auf 90 % Schwarz. Lesbarkeit kommt aus dem Verlauf UNTEN am Text, nicht
@@ -407,7 +409,7 @@ header.kopf{position:sticky; top:0; z-index:60}
 .front .tuer{
   position:absolute; inset:0; background:linear-gradient(160deg,#241c1a,#15100f);
   border-right:1px solid rgba(255,217,160,.12); z-index:2;
-  transform:translateX(0); transition:transform 1.05s cubic-bezier(.62,0,.2,1);
+  transform:translateX(0); transition:transform .4s cubic-bezier(.62,0,.2,1);
 }
 .front.auf .tuer{transform:translateX(101%)}
 /* die Lichtfuge am Rand der Tür */
@@ -415,7 +417,7 @@ header.kopf{position:sticky; top:0; z-index:60}
   position:absolute; top:0; bottom:0; left:0; width:3px; z-index:3; opacity:0;
   background:linear-gradient(180deg,rgba(255,217,160,0),var(--licht) 25%,var(--licht) 75%,rgba(255,217,160,0));
   box-shadow:0 0 26px 5px rgba(255,184,101,.55);
-  transition:transform 1.05s cubic-bezier(.62,0,.2,1), opacity .3s;
+  transition:transform .4s cubic-bezier(.62,0,.2,1), opacity .3s;
 }
 .front.auf .fuge{opacity:1; transform:translateX(calc(100% * var(--fb,120)));
   animation:fuge-aus .35s 1.05s forwards}
@@ -448,7 +450,7 @@ header.kopf{position:sticky; top:0; z-index:60}
 }
 .situation .mass-chip::before{
   content:""; display:inline-block; width:16px; height:1px; background:var(--glut);
-  vertical-align:middle; margin-right:9px; transition:width .45s cubic-bezier(.22,1,.36,1);
+  vertical-align:middle; margin-right:9px; transition:width .4s cubic-bezier(.22,1,.36,1);
 }
 .situation:hover .mass-chip::before{ width:28px }
 .situation .txt{padding:20px 20px 24px}
@@ -460,7 +462,7 @@ header.kopf{position:sticky; top:0; z-index:60}
 @media (max-width:900px){ .galerie{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:560px){ .galerie{grid-template-columns:1fr} }
 .galerie figure{margin:0; position:relative; aspect-ratio:4/3; overflow:hidden; background:#0f0c0b}
-.galerie img{width:100%; height:100%; object-fit:cover; transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.galerie img{width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.22,1,.36,1)}
 .galerie figure:hover img{transform:scale(1.045)}
 .galerie figcaption{
   position:absolute; inset:auto 0 0 0; padding:34px 18px 15px; font-size:14.5px;
@@ -469,8 +471,9 @@ header.kopf{position:sticky; top:0; z-index:60}
 
 /* ── Der Weg: sieben Schritte an einer senkrechten Lichtfuge ─────────── */
 .weg{position:relative; margin-top:56px; padding-left:clamp(30px,5vw,64px)}
-.weg::before{content:""; position:absolute; left:0; top:10px; bottom:10px; width:2px; background:var(--kante)}
-.weg .glut{position:absolute; left:0; top:10px; width:2px; height:var(--p,0%); background:linear-gradient(180deg,var(--glut),var(--licht)); box-shadow:0 0 14px rgba(255,184,101,.6); transition:height .1s linear}
+.weg::before{content:""; position:absolute; left:0; top:10px; bottom:10px; width:2px; background:var(--schiene,var(--kante)); transition:background .3s}
+.weg:hover{--schiene:rgba(255,217,160,.3)}
+.weg .glut{position:absolute; left:0; top:10px; width:2px; height:var(--p,0%); background:linear-gradient(180deg,var(--glut),var(--licht)); box-shadow:0 0 14px rgba(255,184,101,.6); transition:height .1s cubic-bezier(.22,1,.36,1)}
 .weg ol{list-style:none; margin:0; padding:0; display:grid; gap:clamp(24px,3vw,40px)}
 /* 🔴 Noah, 22.09.2026: „das steht dann von 2001 bis 2003 … ab 2004 ist es dann
    eingerückt, das ist alles nicht in der Reihe." Ursache: jedes <li> war ein EIGENES
@@ -516,7 +519,7 @@ header.kopf{position:sticky; top:0; z-index:60}
    schrumpfen, und deutsche Komposita („Dachschrägenschränke") brechen nicht mit —
    der Text lief dann 33 px ueber seinen Kasten. Der Prüfer hat es gefunden,
    nachdem ich es vorsorglich gesetzt hatte. */
-.duo > * > h2{overflow-wrap:break-word; hyphens:auto}
+.duo > * > h2{overflow-wrap:break-word; hyphens:manual}
 /* 🔴 Bild = Texthoehe, ABER gedeckelt: bei sehr langem Text wurde ein
    Handyfoto sonst auf ueber 800 px aufgeblasen und wirkte billig statt gross. */
 /* 🔴 Bild = Texthoehe, aber gedeckelt UND mitlaufend: bei sehr langem Text wurde
@@ -653,7 +656,7 @@ footer{background:#0d0a09; padding:70px 0 36px; border-top:1px solid var(--kante
 
 /* ── Brotkrumen ──────────────────────────────────────────────────────── */
 .krumen{font-family:var(--sans); font-size:13px; color:#8d817c; letter-spacing:.05em; padding-top:26px}
-.krumen a{color:var(--holz); text-decoration:none; padding:13px 0; display:inline-block; margin:-13px 0}
+.krumen a{color:var(--holz); text-decoration:none; padding:13px 0; display:inline-block; min-width:44px; margin:-13px 0}
 .krumen a:hover{text-decoration:underline; text-underline-offset:4px}
 
 /* ── Einsatzgebiet ───────────────────────────────────────────────────── */
@@ -665,7 +668,7 @@ footer{background:#0d0a09; padding:70px 0 36px; border-top:1px solid var(--kante
 .orte span{font-family:var(--sans); font-size:13px; letter-spacing:.05em; color:var(--leise); border:1px solid var(--kante); padding:8px 13px}
 
 /* ── Intro ───────────────────────────────────────────────────────────── */
-#intro{position:fixed; inset:0; z-index:9998; background:#0b0908; display:grid; place-items:center; transition:opacity .6s .35s, visibility .6s .35s}
+#intro{position:fixed; inset:0; z-index:9998; background:#0b0908; display:grid; place-items:center; transition:opacity .4s .35s, visibility .4s .35s}
 #intro.vorbei{opacity:0; visibility:hidden}
 #intro .zeichen{width:min(320px,62vw)}
 #intro .zeichen svg{width:100%; height:auto; overflow:visible}
@@ -691,8 +694,8 @@ footer img.signet { height:48px !important; width:auto !important; }
 .situation .bild img,
 .bildseite img,
 .front img{
-  transition:transform 1.1s cubic-bezier(.22,1,.36,1),
-             filter 1.15s cubic-bezier(.22,1,.36,1);
+  transition:transform .6s cubic-bezier(.22,1,.36,1),
+             filter .6s cubic-bezier(.22,1,.36,1);
 }
 .galerie figure.fugt img,
 .situation.fugt .bild img,
@@ -717,7 +720,7 @@ footer img.signet { height:48px !important; width:auto !important; }
   content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
   background:linear-gradient(90deg,rgba(255,184,101,0),var(--glut),rgba(255,184,101,0));
   transform:scaleX(0); transform-origin:left;
-  transition:transform .55s cubic-bezier(.22,1,.36,1);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
   pointer-events:none; z-index:3;
 }
 .galerie figure:hover::after,
@@ -738,14 +741,14 @@ footer img.signet { height:48px !important; width:auto !important; }
    Karte praktisch unsichtbar — sie braucht Weg, Licht und eine Reaktion. */
 .karte{
   transform:translateY(26px);
-  transition:transform .85s cubic-bezier(.22,1,.36,1),
+  transition:transform .4s cubic-bezier(.22,1,.36,1),
              background .4s ease, box-shadow .4s ease;
 }
 .karte.offen,[data-fugt].offen.karte{ transform:none }
 .karte::before{ transform:scaleX(0); transform-origin:left;
-  transition:transform .9s cubic-bezier(.22,1,.36,1) .15s; }
+  transition:transform .4s cubic-bezier(.22,1,.36,1) .15s; }
 .karte.offen::before{ transform:scaleX(1) }
-.karte svg{ transition:stroke .4s ease, transform .5s cubic-bezier(.22,1,.36,1) }
+.karte svg{ transition:stroke .4s ease, transform .4s cubic-bezier(.22,1,.36,1) }
 .karte:hover{ background:#3a2d28; box-shadow:0 0 0 1px rgba(255,217,160,.14) }
 .karte:hover svg{ stroke:var(--glut); transform:translateY(-3px) scale(1.06) }
 .f-papier .karte:hover{ background:#453531 }
@@ -788,7 +791,7 @@ footer img.signet { height:48px !important; width:auto !important; }
 .gegen-fuge{
   background:linear-gradient(180deg,rgba(255,184,101,0),var(--glut) 22%,var(--glut) 78%,rgba(255,184,101,0));
   transform:scaleY(0); transform-origin:top;
-  transition:transform 1.1s cubic-bezier(.22,1,.36,1) .2s;
+  transition:transform .4s cubic-bezier(.22,1,.36,1) .2s;
 }
 .gegen.offen .gegen-fuge,[data-fugt].offen .gegen-fuge{ transform:scaleY(1) }
 .gegen-fuss{ display:grid; grid-template-columns:1fr 1fr; gap:38px; margin-top:34px }
@@ -859,21 +862,21 @@ footer img.signet { height:48px !important; width:auto !important; }
 }
 .hero-signatur svg{width:100%; height:100%; overflow:visible}
 /* Die Platten fahren auseinander — bis 26 px je Seite bei vollem Fortschritt */
-.sig-links {transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s linear}
-.sig-rechts{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s linear}
-.sig-kl{transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s linear}
-.sig-kr{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s linear}
+.sig-links {transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
+.sig-rechts{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
+.sig-kl{transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
+.sig-kr{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
 .sig-spalt{
   transform:translateX(calc(var(--f,0) * -26px)) scaleX(calc(1 + var(--f,0) * 2.17));
-  transform-origin:240px 0; transition:transform .12s linear;
+  transform-origin:240px 0; transition:transform .12s cubic-bezier(.22,1,.36,1);
   opacity:calc(.55 + var(--f,0) * .45);
 }
 .sig-kante{stroke:var(--licht); stroke-width:1.1; opacity:calc(.55 + var(--f,0) * .45);
            filter:drop-shadow(0 0 10px rgba(255,217,160,.7))}
 .sig-mass line{stroke:var(--licht); stroke-width:1.4; opacity:calc(.25 + var(--f,0) * .6)}
-.sig-ml{transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s linear}
-.sig-mr{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s linear}
-.sig-mq{transform:scaleX(calc(1 + var(--f,0) * 2.17)); transform-origin:240px 0; transition:transform .12s linear}
+.sig-ml{transform:translateX(calc(var(--f,0) * -26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
+.sig-mr{transform:translateX(calc(var(--f,0) *  26px)); transition:transform .12s cubic-bezier(.22,1,.36,1)}
+.sig-mq{transform:scaleX(calc(1 + var(--f,0) * 2.17)); transform-origin:240px 0; transition:transform .12s cubic-bezier(.22,1,.36,1)}
 .sig-wert{
   position:absolute; top:4px; left:50%; transform:translateX(-50%);
   font-family:var(--sans); font-size:14px; letter-spacing:.14em; text-transform:uppercase;
@@ -931,7 +934,7 @@ footer img.signet { height:48px !important; width:auto !important; }
   fill:none; stroke:#fff; stroke-width:1.9;
   stroke-linecap:round; stroke-linejoin:round;
   stroke-dasharray:var(--l,200); stroke-dashoffset:var(--l,200);
-  transition:stroke-dashoffset .9s cubic-bezier(.22,1,.36,1), opacity .4s;
+  transition:stroke-dashoffset .4s cubic-bezier(.22,1,.36,1), opacity .4s;
   opacity:1;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,.65));
 }
@@ -1265,5 +1268,22 @@ html.lb-offen{overflow:hidden}
 
 /* LCP 17.10.2026: Poster als <img>, Video blendet erst beim Abspielen ein */
 .hero-film>.hero-poster,.hero-film>.hero-video{position:absolute;inset:0}
-.hero-film>.hero-video{opacity:0;transition:opacity .6s linear}
+.hero-film>.hero-video{opacity:0;transition:opacity .4s cubic-bezier(.22,1,.36,1)}
 .hero-film>.hero-video.laeuft{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   APPLE-REGELN (21.10.2026) — Druck-Feedback, Hyphens, Reduced Motion
+   Messbar: system/apps/audit/os_regeln_pruefen.mjs (0 Verstöße)
+   ═══════════════════════════════════════════════════════════════════════ */
+/* Druck-Feedback auf pointer-down: Textlinks dimmen, Knöpfe und Karten drücken sich ein */
+a:active,button:active,summary:active,label:active{opacity:.7; transition-duration:.1s}
+.cta:active,.front:active,.karte:active,.burger:active{transform:scale(.97); opacity:1}
+.nav a:active,.drop a:active,.mobilmenu a:active{transform:none; opacity:.6}
+/* Überschriften: nur an gesetzten Trennstellen (&shy;) trennen, nie automatisch */
+h1,h2,h3,h4{hyphens:manual; -webkit-hyphens:manual; overflow-wrap:break-word}
+h1,h2,h3{max-width:100%}
+@media (prefers-reduced-motion:reduce){
+  a:active,button:active,summary:active{transition:none}
+  .cta:active,.front:active,.karte:active{transform:none}
+  .weg::before{transition:none}
+}
